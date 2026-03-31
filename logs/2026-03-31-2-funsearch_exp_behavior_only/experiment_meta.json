@@ -1,0 +1,15 @@
+{
+  "name": "r3_behavior_only",
+  "config": {
+    "max_samples": 80,
+    "dedup_ast": false,
+    "dedup_behavior": true,
+    "log_suffix": "2026-03-31-2-funsearch_exp_behavior_only",
+    "temperature": 0.3
+  },
+  "seed": 42,
+  "start_time": "2026-03-31 21:27:02",
+  "end_time": "2026-03-31 21:47:22",
+  "elapsed_seconds": 1220.0,
+  "return_code": 0
+}

@@ -1,0 +1,18 @@
+{
+  "no_dedup": {
+    "weibull_score": -2062.4,
+    "elapsed": 302.74371099472046
+  },
+  "ast_only": {
+    "weibull_score": -2034.2,
+    "elapsed": 182.1861550807953
+  },
+  "behavior_only": {
+    "weibull_score": -2065.4,
+    "elapsed": 585.6841678619385
+  },
+  "full_dedup": {
+    "weibull_score": -2052.4,
+    "elapsed": 611.776772737503
+  }
+}
