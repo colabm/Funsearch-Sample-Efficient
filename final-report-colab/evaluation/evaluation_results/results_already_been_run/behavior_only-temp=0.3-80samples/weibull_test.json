@@ -1,0 +1,10 @@
+{
+  "status": "ok",
+  "dataset": "Weibull 5k",
+  "source_log_dir": "logs/behavior_only-temp=0.3-80samples",
+  "cutoff": 80,
+  "best_sample_order": 65,
+  "best_search_score": -212.35714285714286,
+  "score": -2065.4,
+  "elapsed_s": 585.6841678619385
+}

@@ -1,0 +1,9 @@
+{
+  "status": "ok",
+  "dataset": "OR3 test",
+  "source_log_dir": "logs/full_dedup-temp=0.3-80samples",
+  "cutoff": 80,
+  "best_sample_order": 40,
+  "best_search_score": -210.14285714285714,
+  "score": -208.67
+}

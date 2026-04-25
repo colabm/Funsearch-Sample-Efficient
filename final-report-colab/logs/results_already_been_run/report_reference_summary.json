@@ -1,0 +1,50 @@
+{
+  "thresholds": {
+    "experiment1": -211.5,
+    "experiment2": -210.93
+  },
+  "experiment1_search_efficiency": {
+    "no_dedup": {
+      "sample_to_threshold": 61,
+      "sample_time_s": 361.2852478027344,
+      "eval_time_s": 458.05999755859375
+    },
+    "ast_only": {
+      "sample_to_threshold": 48,
+      "sample_time_s": 276.4383850097656,
+      "eval_time_s": 252.51626586914062
+    },
+    "behavior_only": null,
+    "full_dedup": {
+      "sample_to_threshold": 33,
+      "sample_time_s": 279.2436218261719,
+      "eval_time_s": 261.4039001464844
+    }
+  },
+  "experiment2_search_efficiency": {
+    "no_dedup": {
+      "sample_to_threshold": 103,
+      "sample_time_s": 973.383544921875,
+      "eval_time_s": 1244.9906005859375,
+      "dedup_time_s": 0.0
+    },
+    "full_dedup": {
+      "sample_to_threshold": 25,
+      "sample_time_s": 79.0927734375,
+      "eval_time_s": 127.22846984863281,
+      "dedup_time_s": 0.12188108265399933
+    }
+  },
+  "eer_report_values": {
+    "exp1": {
+      "no_dedup": 63.0,
+      "ast_only": 63.0,
+      "behavior_only": 70.4,
+      "full_dedup": 80.2
+    },
+    "exp2": {
+      "no_dedup": 86.1,
+      "full_dedup": 91.0
+    }
+  }
+}

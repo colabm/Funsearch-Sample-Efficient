@@ -1,0 +1,8 @@
+{
+  "total": 0,
+  "empty_filtered": 0,
+  "ast_filtered": 0,
+  "behavior_filtered": 0,
+  "passed": 0,
+  "note": "dedup disabled"
+}

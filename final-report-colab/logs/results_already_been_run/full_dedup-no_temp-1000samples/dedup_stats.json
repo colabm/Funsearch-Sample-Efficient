@@ -1,0 +1,8 @@
+{
+  "total": 1001,
+  "empty_filtered": 0,
+  "ast_filtered": 13,
+  "behavior_filtered": 70,
+  "passed": 918,
+  "dedup_total_time_ms": 15262.269730796106
+}

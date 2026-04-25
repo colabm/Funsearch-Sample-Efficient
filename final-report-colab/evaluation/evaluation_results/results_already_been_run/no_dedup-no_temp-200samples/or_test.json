@@ -1,0 +1,25 @@
+{
+  "status": "ok",
+  "score": -209.0,
+  "instance_bins": {
+    "u500_14": 214,
+    "u500_15": 209,
+    "u500_16": 209,
+    "u500_17": 206,
+    "u500_18": 210,
+    "u500_19": 206
+  },
+  "dataset": "OR3 test",
+  "instances": [
+    "u500_14",
+    "u500_15",
+    "u500_16",
+    "u500_17",
+    "u500_18",
+    "u500_19"
+  ],
+  "source_log_dir": "logs/no_dedup-no_temp-200samples",
+  "cutoff": 200,
+  "best_sample_order": 103,
+  "best_search_score": -210.92857142857142
+}

@@ -1,0 +1,4665 @@
+Random seed: 42
+Starting FunSearch Bin Packing
+API: https://api.bltcy.ai, Model: gpt-3.5-turbo
+Max samples: 80
+Temperature: 0.3
+Search set: 14 instances (u500_00~u500_13)
+Test set: 6 instances (u500_14~u500_19)
+Dedup AST: False, Behavior: True
+Numba acceleration: False
+Log directory: /Users/zs/A/Coding/cityu_homework/cs5491/project_test/funsearch-main/logs/2026-03-31-2-funsearch_exp_behavior_only
+Debug mode: False
+
+INFO:absl:Best score of island 0 increased to -500.0
+INFO:absl:Best score of island 1 increased to -500.0
+INFO:absl:Best score of island 2 increased to -500.0
+INFO:absl:Best score of island 3 increased to -500.0
+INFO:absl:Best score of island 4 increased to -500.0
+INFO:absl:Best score of island 5 increased to -500.0
+INFO:absl:Best score of island 6 increased to -500.0
+INFO:absl:Best score of island 7 increased to -500.0
+INFO:absl:Best score of island 8 increased to -500.0
+INFO:absl:Best score of island 9 increased to -500.0
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    ratios = item / bins
+    log_ratios = np.log(ratios)
+    priorities = -log_ratios
+    return priorities
+------------------------------------------------------
+Score        : -500.0
+Sample time  : None
+Evaluate time: 0.8514869213104248
+Sample orders: None
+======================================================
+
+
+INFO:absl:Best score of island 6 increased to -225.0
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = ratio ** 3
+        elif 0.5 < ratio <= 1:
+            priorities[i] = (1 - ratio) * 10
+        else:
+            score = 0
+            for j in range(1, 5):
+                score += (ratio ** j) / j
+            priorities[i] = score
+        if capacity < item * 0.8:
+            priorities[i] += 5
+        if i % 2 == 0:
+            priorities[i] *= 0.9
+    return priorities
+------------------------------------------------------
+Score        : -225.0
+Sample time  : 4.191846251487732
+Evaluate time: 4.0455238819122314
+Sample orders: 2
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                if ratio < j * 0.2:
+                    score += (6 - j) * np.log(j + 1)
+                else:
+                    score -= j * np.sqrt(ratio)
+            if capacity % 2 == 0:
+                score *= 1.1
+            else:
+                score *= 0.9
+            priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -370.0
+Sample time  : 4.191846251487732
+Evaluate time: 6.221041917800903
+Sample orders: 3
+======================================================
+
+
+INFO:absl:Best score of island 6 increased to -213.0
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                weight = 1 / j
+                score += weight * (ratio ** j)
+            if capacity < item * 1.5:
+                score *= 1.2
+            else:
+                score *= 0.8
+            if capacity % 2 == 0:
+                score -= 0.1
+            else:
+                score += 0.1
+            priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -213.0
+Sample time  : 4.191846251487732
+Evaluate time: 3.9227559566497803
+Sample orders: 4
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = ratio * 10
+        elif 0.5 < ratio <= 1:
+            priorities[i] = (1 - ratio) * 5 + 1
+        else:
+            score = 0
+            for j in range(1, 5):
+                score += (ratio ** j) / j
+            if capacity % 2 == 0:
+                score *= 1.5
+            else:
+                score *= 1.2
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if priorities[i] == np.inf:
+            priorities[i] = max_priority * 2
+    return priorities
+------------------------------------------------------
+Score        : -221.35714285714286
+Sample time  : 4.191846251487732
+Evaluate time: 3.255345106124878
+Sample orders: 5
+======================================================
+
+
+INFO:absl:Best score of island 7 increased to -213.5
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        if bins[i] == 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bins[i]
+        if ratio > 1:
+            priorities[i] = 10 * ratio
+        elif ratio == 1:
+            priorities[i] = 5
+        else:
+            score = 0
+            for j in range(1, 6):
+                score += (ratio ** j) * (6 - j)
+            if bins[i] < item * 0.5:
+                score *= 2
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 1
+    return priorities
+------------------------------------------------------
+Score        : -213.5
+Sample time  : 4.7320719957351685
+Evaluate time: 4.663815975189209
+Sample orders: 6
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        if bins[i] <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bins[i]
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                score += ((-1)**j) * (ratio ** j) / j
+            if bins[i] < item * 1.5:
+                score *= 1.2
+            if bins[i] > item * 3:
+                score *= 0.8
+            priorities[i] = -score
+    return priorities
+------------------------------------------------------
+Score        : -213.5
+Sample time  : 4.7320719957351685
+Evaluate time: 4.30456018447876
+Sample orders: 7
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                if ratio < j * 0.2:
+                    score += (6 - j) * np.log(bin_capacity + j)
+                else:
+                    score -= j * np.sqrt(bin_capacity)
+            if bin_capacity % 2 == 0:
+                score *= 1.1
+            else:
+                score *= 0.9
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 10
+    return priorities
+------------------------------------------------------
+Score        : -364.7142857142857
+Sample time  : 4.7320719957351685
+Evaluate time: 8.852406024932861
+Sample orders: 8
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        if bins[i] == 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bins[i]
+        if ratio > 1:
+            priorities[i] = ratio ** 3
+        elif 0.5 < ratio <= 1:
+            priorities[i] = (1 - ratio) * 10
+        else:
+            priorities[i] = np.exp(-ratio * 5)
+        if bins[i] < item * 0.1:
+            priorities[i] += 5
+        if i % 2 == 0:
+            priorities[i] *= 1.1
+        else:
+            priorities[i] *= 0.9
+    min_priority = np.min(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if priorities[i] == np.inf:
+            priorities[i] = min_priority * 10
+    return priorities
+------------------------------------------------------
+Score        : -221.71428571428572
+Sample time  : 4.7320719957351685
+Evaluate time: 5.673282623291016
+Sample orders: 9
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        if ratio > 1:
+            priorities[i] = ratio * 10
+        elif 0.5 <= ratio <= 1:
+            priorities[i] = -np.log(bin_capacity) + ratio * 5
+        else:
+            score = 0
+            for j in range(1, int(bin_capacity)+1):
+                if j % 2 == 0:
+                    score += np.sqrt(j)
+                else:
+                    score -= np.log(j+1)
+            priorities[i] = score / (bin_capacity + 1) + ratio
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    priorities = np.where(np.isinf(priorities), max_priority + 100, priorities)
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 5.380279302597046
+Evaluate time: 30.010528802871704
+Sample orders: 10
+======================================================
+
+
+INFO:absl:Best score of island 2 increased to -317.7857142857143
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                if ratio < j * 0.2:
+                    score += (6 - j) * 0.5
+                else:
+                    score -= j * 0.1
+            if capacity % 2 == 0:
+                score *= 1.1
+            else:
+                score *= 0.9
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 10
+    return priorities
+------------------------------------------------------
+Score        : -317.7857142857143
+Sample time  : 5.380279302597046
+Evaluate time: 2.9600017070770264
+Sample orders: 11
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                score += ((-1)**j) * (ratio ** j) / j
+            if capacity < item * 1.5:
+                score *= 2
+            elif capacity > item * 3:
+                score /= 2
+            priorities[i] = -score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 5.380279302597046
+Evaluate time: 0.0
+Sample orders: 12
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                score += ((-1) ** j) * (ratio ** j) / j
+            if capacity < item * 1.5:
+                score *= 1.2
+            elif capacity > item * 3:
+                score *= 0.8
+            priorities[i] = -score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 5.380279302597046
+Evaluate time: 0.0
+Sample orders: 13
+======================================================
+
+
+INFO:absl:Best score of island 4 increased to -364.7142857142857
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                if ratio < j * 0.2:
+                    score += (6 - j) * np.log(bin_capacity + j)
+                else:
+                    score -= j * np.sqrt(bin_capacity)
+            if bin_capacity % 2 == 0:
+                score *= 1.1
+            else:
+                score *= 0.9
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if priorities[i] == np.inf:
+            priorities[i] = max_priority + 10
+    return priorities
+------------------------------------------------------
+Score        : -364.7142857142857
+Sample time  : 4.5297160148620605
+Evaluate time: 9.777323007583618
+Sample orders: 14
+======================================================
+
+
+INFO:absl:Best score of island 4 increased to -212.92857142857142
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                score += (ratio ** j) / j
+            if capacity > 10 * item:
+                score *= 0.5
+            elif capacity < item:
+                score *= 2
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if np.isinf(priorities[i]):
+            priorities[i] = max_priority * 10
+    return priorities
+------------------------------------------------------
+Score        : -212.92857142857142
+Sample time  : 4.5297160148620605
+Evaluate time: 3.0576629638671875
+Sample orders: 15
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                score += ((-1)**j) * (ratio ** j) / j
+            if capacity < item * 1.5:
+                score *= 2
+            elif capacity > item * 3:
+                score /= 2
+            priorities[i] = -score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 4.5297160148620605
+Evaluate time: 0.0
+Sample orders: 16
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                if ratio < j * 0.2:
+                    score += (6 - j) * np.log(j + 1)
+                else:
+                    score -= j * np.sqrt(ratio)
+            if capacity % 2 == 0:
+                score *= 1.1
+            else:
+                score *= 0.9
+            priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 4.5297160148620605
+Evaluate time: 0.0
+Sample orders: 17
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        if bins[i] <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bins[i]
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 5):
+                score += ((-1) ** j) * (ratio ** j) / j
+            if bins[i] < item * 1.5:
+                score *= 2
+            if bins[i] > item * 3:
+                score /= 2
+            priorities[i] = -score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 5.902450501918793
+Evaluate time: 0.0
+Sample orders: 18
+======================================================
+
+
+INFO:absl:Best score of island 5 increased to -370.0
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                if ratio < j * 0.2:
+                    score += (6 - j) * np.log(j + 1)
+                else:
+                    score -= j * np.sqrt(ratio)
+            if capacity % 2 == 0:
+                score *= 1.1
+            else:
+                score *= 0.9
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if priorities[i] == np.inf:
+            priorities[i] = max_priority * 10
+    return priorities
+------------------------------------------------------
+Score        : -370.0
+Sample time  : 5.902450501918793
+Evaluate time: 7.770657062530518
+Sample orders: 19
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                if ratio < j * 0.2:
+                    score += (6 - j) * np.log(j + 1)
+                else:
+                    score -= j * np.sqrt(ratio)
+            if capacity % 2 == 0:
+                score *= 1.1
+            else:
+                score *= 0.9
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if np.isinf(priorities[i]):
+            priorities[i] = max_priority * 10
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 5.902450501918793
+Evaluate time: 0.0
+Sample orders: 20
+======================================================
+
+
+INFO:absl:Best score of island 5 increased to -213.78571428571428
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        if ratio > 1:
+            priorities[i] = ratio ** 3
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            score = 0
+            for j in range(1, 5):
+                score += (ratio ** j) / j
+            if bin_capacity < item * 2:
+                score *= 1.5
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 2
+    return priorities
+------------------------------------------------------
+Score        : -213.78571428571428
+Sample time  : 5.902450501918793
+Evaluate time: 2.913684129714966
+Sample orders: 21
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        score = 0
+        if ratio > 2:
+            score = ratio ** 4 + np.log(ratio)
+        elif ratio > 1:
+            score = (ratio ** 3) * 1.2
+            for k in range(1, 4):
+                score += (ratio / k) ** k
+        elif ratio == 1:
+            score = 0
+        else:
+            for j in range(1, 7):
+                if j % 2 == 0:
+                    score += (ratio ** j) / (j * 1.5)
+                else:
+                    score += (ratio ** j) / j
+            if bin_capacity < item * 1.5:
+                score *= 2
+            elif bin_capacity < item * 3:
+                score *= 1.3
+            else:
+                for m in range(3):
+                    score += (bin_capacity / (item + 1)) ** (m + 1) / (m + 2)
+        if bin_capacity % 2 == 0:
+            score *= 0.9
+        else:
+            score *= 1.1
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 2.5
+        elif priorities[i] < 0:
+            priorities[i] = abs(priorities[i]) + max_priority * 0.5
+    return priorities
+------------------------------------------------------
+Score        : -239.42857142857142
+Sample time  : 9.440361976623535
+Evaluate time: 5.570671081542969
+Sample orders: 22
+======================================================
+
+
+INFO:absl:Best score of island 5 increased to -212.92857142857142
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        if ratio > 1:
+            priorities[i] = ratio ** 4 + np.log1p(ratio)
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            score = 0
+            for j in range(1, 6):
+                term = (ratio ** j) / (j ** 2)
+                if j % 2 == 0:
+                    term *= 1.2
+                else:
+                    term *= 0.8
+                score += term
+            if bin_capacity < item * 1.5:
+                score *= 2
+            elif bin_capacity < item * 3:
+                score *= 1.3
+            else:
+                for k in range(1, 4):
+                    score += (bin_capacity / (item * k)) ** 0.5 / (k + 1)
+            priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size > 0:
+        max_priority = np.max(finite_priorities)
+    else:
+        max_priority = 1
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 3
+        elif priorities[i] < 0:
+            priorities[i] = 0
+    return priorities
+------------------------------------------------------
+Score        : -212.92857142857142
+Sample time  : 9.440361976623535
+Evaluate time: 5.528532981872559
+Sample orders: 23
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        if ratio > 2:
+            priorities[i] = ratio ** 4 + np.log(bin_capacity + 1)
+        elif 1 < ratio <= 2:
+            priorities[i] = ratio ** 3 - np.sqrt(bin_capacity)
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            score = 0
+            for j in range(1, 6):
+                if j % 2 == 0:
+                    score += (ratio ** j) / (j * 2)
+                else:
+                    score += (ratio ** j) * j
+            if bin_capacity < item * 3:
+                score *= 2
+            elif bin_capacity > item * 5:
+                score /= 2
+            priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        max_priority = 1
+    else:
+        max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 3
+        elif priorities[i] < 0:
+            priorities[i] = abs(priorities[i]) + max_priority / 2
+    for i in range(len(priorities)):
+        for k in range(i+1, len(priorities)):
+            if abs(priorities[i] - priorities[k]) < 0.1:
+                priorities[k] += 0.1 * (k+1)
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 9.440361976623535
+Evaluate time: 30.009440183639526
+Sample orders: 24
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        if ratio > 1:
+            priorities[i] = ratio ** 4 + np.log1p(ratio)
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            score = 0
+            for j in range(1, 6):
+                if j % 2 == 0:
+                    score += (ratio ** j) / (j * 2)
+                else:
+                    score += (ratio ** j) / j
+            if bin_capacity < item * 1.5:
+                score *= 2
+            elif bin_capacity < item * 3:
+                score *= 1.2
+            else:
+                for k in range(1, 4):
+                    score += (ratio / (k + 1)) ** k
+            priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        max_priority = 1
+    else:
+        max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 3
+        elif priorities[i] < 0:
+            priorities[i] = 0
+    for i in range(len(priorities)):
+        for j in range(i + 1, len(priorities)):
+            if priorities[j] < priorities[i]:
+                priorities[i], priorities[j] = priorities[j], priorities[i]
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 9.440361976623535
+Evaluate time: 30.008793830871582
+Sample orders: 25
+======================================================
+
+
+INFO:absl:Best score of island 8 increased to -220.21428571428572
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        if bins[i] <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bins[i]
+        if ratio > 1:
+            priorities[i] = ratio ** 3
+        elif 0.5 < ratio <= 1:
+            priorities[i] = (1 - ratio) * 10
+        else:
+            score = 0
+            for j in range(1, 5):
+                score += (ratio ** j) / j
+            priorities[i] = score
+        if bins[i] < item * 1.5:
+            priorities[i] *= 2
+        if i % 2 == 0:
+            priorities[i] += np.sin(ratio * np.pi)
+    return priorities
+------------------------------------------------------
+Score        : -220.21428571428572
+Sample time  : 4.086177945137024
+Evaluate time: 3.812253952026367
+Sample orders: 26
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                score += ((-1) ** j) * (ratio ** j) / j
+            if capacity < item * 1.5:
+                score *= 1.2
+            elif capacity > item * 3:
+                score *= 0.8
+            priorities[i] = -score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 4.086177945137024
+Evaluate time: 0.0
+Sample orders: 27
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                weight = 1 / j
+                score += weight * (ratio ** j)
+            if capacity > 2 * item:
+                score *= 0.5
+            elif capacity < item:
+                score *= 2
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if priorities[i] == np.inf:
+            priorities[i] = max_priority * 10
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 4.086177945137024
+Evaluate time: 0.0
+Sample orders: 28
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                if ratio < j * 0.2:
+                    score += (6 - j) * np.log(1 / (ratio + 1e-9))
+                else:
+                    score -= j * ratio
+            if capacity % 2 == 0:
+                score *= 1.1
+            else:
+                score *= 0.9
+            priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -489.92857142857144
+Sample time  : 4.086177945137024
+Evaluate time: 3.635164976119995
+Sample orders: 29
+======================================================
+
+
+INFO:absl:Best score of island 9 increased to -219.35714285714286
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                factor = (j / 5)
+                adjusted_ratio = ratio * factor
+                if adjusted_ratio == 0:
+                    log_val = 0
+                else:
+                    log_val = np.log(adjusted_ratio)
+                score += (-log_val) * (6 - j)
+            if capacity > item * 10:
+                score *= 0.5
+            elif capacity < item * 1.5:
+                score *= 2
+            priorities[i] = score / 10
+    return priorities
+------------------------------------------------------
+Score        : -219.35714285714286
+Sample time  : 4.202883780002594
+Evaluate time: 4.9198808670043945
+Sample orders: 30
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                weight = 1 / j
+                score += weight * (ratio ** j)
+            if capacity > 2 * item:
+                score *= 0.5
+            elif capacity < item:
+                score *= 2
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 10
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 4.202883780002594
+Evaluate time: 0.0
+Sample orders: 31
+======================================================
+
+
+INFO:absl:Best score of island 9 increased to -212.78571428571428
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                weight = 1 / j
+                partial_ratio = ratio ** j
+                if partial_ratio > 0.5:
+                    score += weight * np.log(1 + partial_ratio)
+                else:
+                    score += weight * (partial_ratio ** 2)
+            if capacity % 2 == 0:
+                score *= 1.1
+            else:
+                score *= 0.9
+            priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -212.78571428571428
+Sample time  : 4.202883780002594
+Evaluate time: 3.0650718212127686
+Sample orders: 32
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                score += ((-1) ** j) * (ratio ** j) / j
+            if capacity < item * 1.5:
+                score *= 2
+            elif capacity > item * 3:
+                score /= 2
+            priorities[i] = -score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 4.202883780002594
+Evaluate time: 0.0
+Sample orders: 33
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, -np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio < threshold:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+        if capacity % 3 == 0:
+            score *= 1.2
+            for k in range(1, 4):
+                if (capacity // k) % 2 == 0:
+                    score += k * 0.4
+                else:
+                    score -= k * 0.2
+        else:
+            if capacity % 5 == 0:
+                score *= 0.85
+            else:
+                score *= 0.95
+            for m in range(1, 6):
+                if (capacity + m) % 4 == 0:
+                    score += m * 0.1
+                else:
+                    score -= m * 0.05
+        if ratio < 0.3:
+            score += 2
+        elif ratio < 0.6:
+            score += 1
+        else:
+            score -= 1.5
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 15
+    return priorities
+------------------------------------------------------
+Score        : -476.35714285714283
+Sample time  : 7.944509744644165
+Evaluate time: 4.669342994689941
+Sample orders: 34
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, -np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio < threshold:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+            if j % 2 == 0:
+                score += 0.1 * (capacity % (j+1))
+            else:
+                score -= 0.05 * (item % (j+1))
+        if capacity % 3 == 0:
+            score *= 1.2
+            if item % 2 == 0:
+                score += 0.5
+            else:
+                score -= 0.3
+        elif capacity % 3 == 1:
+            score *= 0.8
+            if item > capacity / 2:
+                score += 0.4
+            else:
+                score -= 0.2
+        else:
+            score *= 1.0
+            for k in range(1, 4):
+                if (item * k) % capacity < capacity * 0.1:
+                    score += 0.2 * k
+                else:
+                    score -= 0.1 * k
+        if score < 0:
+            score = abs(score) * 0.5
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 15
+    return priorities
+------------------------------------------------------
+Score        : -489.0
+Sample time  : 7.944509744644165
+Evaluate time: 14.775084018707275
+Sample orders: 35
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, -np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio < threshold:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+            if j % 2 == 0:
+                score += 0.02 * j
+            else:
+                score -= 0.01 * j
+        if capacity % 3 == 0:
+            score *= 1.15
+        elif capacity % 5 == 0:
+            score *= 0.85
+        else:
+            score *= 1.0
+        if score < 0.5:
+            for k in range(3):
+                if ratio < (k + 1) * 0.15:
+                    score += (3 - k) * 0.4
+                else:
+                    score -= (k + 1) * 0.1
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 20
+        elif priorities[i] < 0:
+            priorities[i] = max_priority - abs(priorities[i])
+    return priorities
+------------------------------------------------------
+Score        : -456.7142857142857
+Sample time  : 7.944509744644165
+Evaluate time: 4.75895881652832
+Sample orders: 36
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, -np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio < threshold:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+        if capacity % 3 == 0:
+            score *= 1.2
+            for k in range(1, 4):
+                if (capacity // k) % 2 == 0:
+                    score += 0.5 * k
+                else:
+                    score -= 0.3 * k
+        else:
+            score *= 0.85
+            if ratio < 0.5:
+                score += 2
+            else:
+                for m in range(3):
+                    if (i + m) < len(bins):
+                        neighbor_capacity = bins[i + m]
+                        if neighbor_capacity > capacity:
+                            score += 0.1 * m
+                        else:
+                            score -= 0.2 * m
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 15
+    return priorities
+------------------------------------------------------
+Score        : -476.35714285714283
+Sample time  : 7.944509744644165
+Evaluate time: 4.41877818107605
+Sample orders: 37
+======================================================
+
+
+INFO:absl:Best score of island 6 increased to -212.71428571428572
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 10):
+            weight = 1 / (j ** 1.5)
+            term = (ratio ** j) * weight
+            if j % 2 == 0:
+                term *= 1.1
+            else:
+                term *= 0.9
+            score += term
+        if capacity < item * 1.2:
+            score *= 1.5
+        elif capacity < item * 2:
+            score *= 1.1
+        else:
+            score *= 0.7
+        if capacity % 3 == 0:
+            score -= 0.15
+        elif capacity % 5 == 0:
+            score += 0.2
+        else:
+            score += 0.05
+        if score < 0:
+            score = 0
+        for k in range(1, 4):
+            if (capacity + k) % 4 == 0:
+                score *= 0.95
+            else:
+                score *= 1.02
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -212.71428571428572
+Sample time  : 7.733673930168152
+Evaluate time: 7.215149164199829
+Sample orders: 38
+======================================================
+
+
+INFO:absl:Best score of island 6 increased to -212.57142857142858
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 10):
+            weight = 1 / (j ** 1.5)
+            term = ratio ** j
+            if j % 2 == 0:
+                term *= 1.1
+            else:
+                term *= 0.9
+            score += weight * term
+        if capacity < item * 1.2:
+            score *= 1.3
+        elif capacity < item * 1.5:
+            score *= 1.1
+        else:
+            score *= 0.7
+        if capacity % 3 == 0:
+            score -= 0.15
+        elif capacity % 5 == 0:
+            score += 0.2
+        else:
+            score += 0.05
+        penalty = 0
+        for k in range(1, 4):
+            if (capacity - item * k) < 0:
+                penalty += 0.05 * k
+            else:
+                penalty -= 0.02 * k
+        score += penalty
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -212.57142857142858
+Sample time  : 7.733673930168152
+Evaluate time: 8.437983989715576
+Sample orders: 39
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 8):
+            weight = 1 / (j ** 1.5)
+            term = (ratio ** j) * weight
+            if j % 2 == 0:
+                term *= 1.1
+            else:
+                term *= 0.9
+            score += term
+        if capacity < item * 1.2:
+            score *= 1.3
+        elif capacity < item * 1.5:
+            score *= 1.1
+        else:
+            score *= 0.7
+        if capacity % 3 == 0:
+            score -= 0.15
+        elif capacity % 5 == 0:
+            score += 0.2
+        else:
+            score += 0.05
+        if score < 0:
+            score = 0
+        if ratio > 0.8:
+            for k in range(3):
+                score += (0.05 * (k + 1)) / (capacity + 1)
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 7.733673930168152
+Evaluate time: 0.0
+Sample orders: 40
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 10):
+            weight = 1 / (j ** 1.5)
+            term = (ratio ** j) * weight
+            if j % 2 == 0:
+                term *= 1.1
+            else:
+                term *= 0.9
+            score += term
+        if capacity < item * 1.2:
+            score *= 1.3
+        elif capacity < item * 1.5:
+            score *= 1.1
+        else:
+            score *= 0.7
+        if capacity % 3 == 0:
+            score -= 0.15
+        elif capacity % 5 == 0:
+            score += 0.15
+        else:
+            score += 0.05
+        if score < 0:
+            score = 0
+        for k in range(1, 4):
+            if (capacity - item * k) >= 0:
+                score -= 0.02 * k
+            else:
+                score += 0.03 * k
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -212.78571428571428
+Sample time  : 7.733673930168152
+Evaluate time: 8.627333879470825
+Sample orders: 41
+======================================================
+
+
+INFO:absl:Best score of island 1 increased to -455.92857142857144
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        if bins[i] <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bins[i]
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                if ratio < j * 0.2:
+                    score += (6 - j) * np.log(1 + bins[i])
+                else:
+                    score -= j * np.sqrt(item)
+            if bins[i] < item * 2:
+                score += np.exp(-bins[i] / item)
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 10
+    return priorities
+------------------------------------------------------
+Score        : -455.92857142857144
+Sample time  : 5.649270236492157
+Evaluate time: 9.754032850265503
+Sample orders: 42
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                score += ((-1)**j) * (ratio ** j) / j
+            if capacity < item * 1.5:
+                score *= 2
+            elif capacity > item * 3:
+                score /= 2
+            priorities[i] = -score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 5.649270236492157
+Evaluate time: 0.0
+Sample orders: 43
+======================================================
+
+
+INFO:absl:Best score of island 1 increased to -372.0
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                if ratio <= j * 0.2:
+                    score += (6 - j) * np.log(j + 1)
+                else:
+                    score -= j * np.sqrt(ratio)
+            if capacity % 2 == 0:
+                score *= 1.1
+            else:
+                score *= 0.9
+            priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -372.0
+Sample time  : 5.649270236492157
+Evaluate time: 6.310685873031616
+Sample orders: 44
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                weight = 1 / j
+                score += weight * (ratio ** j)
+            if capacity < item * 1.5:
+                score *= 1.5
+            elif capacity > item * 3:
+                score *= 0.75
+            priorities[i] = score
+    min_priority = np.min(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = min_priority * 10
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 5.649270236492157
+Evaluate time: 0.0
+Sample orders: 45
+======================================================
+
+
+INFO:absl:Best score of island 1 increased to -219.35714285714286
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio <= threshold:
+                score += (11 - j) * np.log(j + 1) * np.cos(ratio * np.pi * j)
+            else:
+                penalty = j * np.sqrt(ratio) * (1 + (j % 3) * 0.1)
+                if j % 2 == 0:
+                    penalty *= 1.05
+                else:
+                    penalty *= 0.95
+                score -= penalty
+        if capacity % 3 == 0:
+            score *= 1.15
+            for k in range(1, 4):
+                if (capacity // k) % 2 == 0:
+                    score += np.log(k + 1) * ratio * 0.5
+                else:
+                    score -= np.sqrt(k + 1) * (1 - ratio) * 0.3
+        else:
+            score *= 0.85
+            for m in range(5):
+                if m == 0 or m == 4:
+                    score += np.sin(ratio * np.pi * (m + 1)) * 0.2
+                else:
+                    score -= np.cos(ratio * np.pi * (m + 1)) * 0.1
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -219.35714285714286
+Sample time  : 8.434082508087158
+Evaluate time: 17.895392894744873
+Sample orders: 46
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        penalty = 0
+        bonus = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio <= threshold:
+                score += (11 - j) * np.log(j + 1) * np.exp(-ratio * j)
+                if j % 2 == 0:
+                    bonus += np.sqrt(j) * (1 - ratio)
+                else:
+                    penalty += j * ratio * 0.1
+            else:
+                penalty += j * np.sqrt(ratio) * (j / 10)
+                if j % 3 == 0:
+                    penalty += np.log(j + 1) * ratio
+        if capacity % 3 == 0:
+            score *= 1.15
+            penalty *= 0.85
+        elif capacity % 5 == 0:
+            score *= 0.85
+            penalty *= 1.15
+        else:
+            score *= 1.0
+            penalty *= 1.0
+        for k in range(1, 4):
+            if ratio < 0.3 * k:
+                bonus += np.sin(k * ratio * np.pi) * 2
+            else:
+                penalty += np.cos(k * ratio * np.pi) * 1.5
+        final_score = score + bonus - penalty
+        if final_score < 0:
+            final_score = 0
+        priorities[i] = final_score
+    return priorities
+------------------------------------------------------
+Score        : -346.42857142857144
+Sample time  : 8.434082508087158
+Evaluate time: 21.600669145584106
+Sample orders: 47
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio <= threshold:
+                score += (11 - j) * np.log(j + 1) * np.exp(-ratio * j)
+            else:
+                penalty = 0
+                for k in range(1, j + 1):
+                    if k % 2 == 0:
+                        penalty += np.sqrt(ratio) * k / (j + 1)
+                    else:
+                        penalty += np.log1p(ratio) * k / (j + 1)
+                score -= penalty
+        if capacity % 3 == 0:
+            score *= 1.15
+            if ratio < 0.5:
+                score += np.sin(capacity) * 0.5
+            else:
+                score -= np.cos(capacity) * 0.3
+        elif capacity % 2 == 0:
+            score *= 1.05
+            for m in range(1, 4):
+                if (capacity + m) % 5 == 0:
+                    score += np.log(m + 1) * 0.2
+                else:
+                    score -= np.sqrt(m) * 0.1
+        else:
+            score *= 0.85
+            if ratio > 0.7:
+                score -= np.tanh(ratio * capacity) * 0.4
+            else:
+                score += np.arctan(ratio * capacity) * 0.3
+        if score < 0:
+            score = abs(score) * 0.5
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -237.57142857142858
+Sample time  : 8.434082508087158
+Evaluate time: 17.749149799346924
+Sample orders: 48
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio <= threshold:
+                score += (11 - j) * np.log(j + 1) * np.exp(-ratio * j)
+            else:
+                penalty = j * np.sqrt(ratio) * (1 + (j % 3) * 0.1)
+                if j % 2 == 0:
+                    penalty *= 1.05
+                else:
+                    penalty *= 0.95
+                score -= penalty
+        if capacity % 3 == 0:
+            score *= 1.15
+            for k in range(1, 4):
+                if ratio < k * 0.3:
+                    score += k * np.sin(ratio * np.pi * k)
+                else:
+                    score -= k * np.cos(ratio * np.pi / (k + 1))
+        else:
+            score *= 0.85
+            for k in range(1, 3):
+                if ratio > k * 0.4:
+                    score -= k * np.tan(ratio * np.pi / (k + 2))
+                else:
+                    score += k * np.log1p(ratio * k)
+        if score < 0:
+            score = abs(score) ** 0.5 * (-1)
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -430.7857142857143
+Sample time  : 8.434082508087158
+Evaluate time: 16.357262134552002
+Sample orders: 49
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, -np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio < threshold:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+            if j % 3 == 0:
+                if ratio < threshold / 2:
+                    score += 0.2 * j
+                else:
+                    score -= 0.1 * j
+        if capacity % 3 == 0:
+            score *= 1.2
+        elif capacity % 5 == 0:
+            score *= 0.85
+        else:
+            score *= 1.0
+        for k in range(1, 4):
+            if (capacity + k) % 4 == 0:
+                score += 0.15 * k
+            else:
+                score -= 0.05 * k
+        if ratio < 0.25:
+            score += 1.0
+        elif ratio < 0.5:
+            score += 0.5
+        else:
+            score -= 0.3
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        max_priority = 0
+    else:
+        max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 15
+    return priorities
+------------------------------------------------------
+Score        : -484.2857142857143
+Sample time  : 8.466163694858551
+Evaluate time: 5.485666036605835
+Sample orders: 50
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, -np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio < threshold:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+        if capacity % 3 == 0:
+            score *= 1.15
+            for k in range(1, 4):
+                if (capacity // k) % 2 == 0:
+                    score += 0.2 * k
+                else:
+                    score -= 0.1 * k
+        else:
+            if capacity % 2 == 0:
+                score *= 1.05
+            else:
+                score *= 0.85
+            for m in range(5):
+                if (capacity + m) % 5 == 0:
+                    score += 0.3
+                else:
+                    score -= 0.05
+        if score < 0:
+            score = abs(score) * 0.5
+        if ratio < 0.1:
+            score += 2
+        elif ratio > 0.9:
+            score -= 2
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 20
+    return priorities
+------------------------------------------------------
+Score        : -476.35714285714283
+Sample time  : 8.466163694858551
+Evaluate time: 4.631238222122192
+Sample orders: 51
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, -np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio < threshold:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+            if j % 2 == 0:
+                score += 0.1 * (capacity % (j + 1))
+            else:
+                score -= 0.1 * ((capacity + j) % (j + 2))
+        if capacity % 3 == 0:
+            score *= 1.15
+            for k in range(1, 4):
+                if (capacity // k) % 2 == 0:
+                    score += 0.2 * k
+                else:
+                    score -= 0.1 * k
+        else:
+            score *= 0.85
+            for m in range(1, 3):
+                if (capacity + m) % 5 == 0:
+                    score += 0.25 * m
+                else:
+                    score -= 0.15 * m
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 20
+    return priorities
+------------------------------------------------------
+Score        : -482.7142857142857
+Sample time  : 8.466163694858551
+Evaluate time: 21.84436297416687
+Sample orders: 52
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, -np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            if ratio < j * 0.1:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+        if capacity % 3 == 0:
+            score *= 1.2
+        elif capacity % 3 == 1:
+            score *= 0.85
+        else:
+            score *= 1.05
+        if item > 0.5 * capacity:
+            score += 2
+        else:
+            score -= 1
+        for k in range(1, 4):
+            if (capacity - item) % k == 0:
+                score += k * 0.4
+            else:
+                score -= k * 0.2
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 15
+    return priorities
+------------------------------------------------------
+Score        : -373.2142857142857
+Sample time  : 8.466163694858551
+Evaluate time: 5.669175148010254
+Sample orders: 53
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        if ratio > 2:
+            priorities[i] = ratio ** 5 + np.log1p(ratio) * 2
+            for m in range(1, 4):
+                priorities[i] += (ratio / m) ** 2 / (m + 1)
+        elif 1 < ratio <= 2:
+            priorities[i] = ratio ** 3 + np.sqrt(ratio)
+            for n in range(1, 6):
+                if n % 3 == 0:
+                    priorities[i] += (ratio ** n) / (n * 2)
+                else:
+                    priorities[i] += (ratio ** n) / (n ** 2)
+            if bin_capacity < item * 2.5:
+                priorities[i] *= 1.5
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            score = 0
+            for j in range(1, 8):
+                term = (ratio ** j) / (j ** 2)
+                if j % 2 == 0:
+                    term *= 1.3
+                else:
+                    term *= 0.7
+                score += term
+            if bin_capacity < item * 1.2:
+                score *= 2.5
+            elif bin_capacity < item * 2:
+                score *= 1.7
+            else:
+                for k in range(1, 5):
+                    score += (bin_capacity / (item * k)) ** 0.6 / (k + 1)
+                for l in range(1, 3):
+                    score -= (item / (bin_capacity * l)) ** 1.5 / (l + 2)
+            priorities[i] = score
+        if priorities[i] < 0:
+            priorities[i] = 0
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size > 0:
+        max_priority = np.max(finite_priorities)
+        min_priority = np.min(finite_priorities)
+    else:
+        max_priority = 1
+        min_priority = 0
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 4
+        elif priorities[i] < min_priority:
+            priorities[i] = min_priority
+        if priorities[i] > max_priority * 2:
+            priorities[i] = max_priority * 2
+    return priorities
+------------------------------------------------------
+Score        : -311.2142857142857
+Sample time  : 12.680962443351746
+Evaluate time: 7.697775840759277
+Sample orders: 54
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        score = 0
+        if ratio > 2:
+            score = ratio ** 5 - np.log1p(ratio) * 2
+            for m in range(1, 4):
+                score += np.sin(ratio * m) * (m ** 1.5)
+            if bin_capacity < item * 0.5:
+                score *= 3
+            elif bin_capacity < item:
+                score *= 2
+            else:
+                for n in range(1, 6):
+                    score -= (bin_capacity / (item * n)) ** 0.7 / (n + 0.5)
+        elif 1 < ratio <= 2:
+            score = ratio ** 3 + np.exp(-ratio)
+            for p in range(1, 5):
+                if p % 2 == 0:
+                    score += (ratio ** p) / (p * 2)
+                else:
+                    score -= (ratio ** p) / (p * 3)
+            if bin_capacity < item * 1.2:
+                score *= 1.5
+            else:
+                score += np.log(bin_capacity + 1) / (item + 1)
+        elif ratio == 1:
+            score = 0
+        else:
+            for j in range(1, 7):
+                term = (ratio ** j) / (j ** 3)
+                if j % 3 == 0:
+                    term *= 1.5
+                elif j % 2 == 0:
+                    term *= 1.1
+                else:
+                    term *= 0.9
+                score += term
+            if bin_capacity < item * 1.3:
+                score *= 2.5
+            elif bin_capacity < item * 2.5:
+                score *= 1.7
+            else:
+                for k in range(1, 5):
+                    score += (bin_capacity / (item * k)) ** 0.4 / (k + 2)
+                for q in range(1, 3):
+                    score -= np.sqrt(q * ratio) / (q + 1)
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size > 0:
+        max_priority = np.max(finite_priorities)
+    else:
+        max_priority = 1
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 4
+    return priorities
+------------------------------------------------------
+Score        : -213.78571428571428
+Sample time  : 12.680962443351746
+Evaluate time: 7.868154287338257
+Sample orders: 55
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        if ratio > 2:
+            priorities[i] = ratio ** 5 + np.exp(ratio / 2)
+            for m in range(1, 4):
+                priorities[i] += np.sin(ratio * m) / (m + 1)
+        elif 1 < ratio <= 2:
+            priorities[i] = ratio ** 3 + np.log1p(ratio) * 2
+            if bin_capacity < item * 2:
+                priorities[i] *= 1.5
+            else:
+                for n in range(2, 5):
+                    priorities[i] += (bin_capacity / (item * n)) ** 0.3 / (n)
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            score = 0
+            for j in range(1, 8):
+                term = (ratio ** j) / (j ** 1.5)
+                if j % 3 == 0:
+                    term *= 1.1
+                elif j % 2 == 0:
+                    term *= 0.9
+                else:
+                    term *= 1.05
+                score += term
+            if bin_capacity < item * 1.2:
+                score *= 2.5
+                for p in range(1, 3):
+                    score += np.log1p(bin_capacity / (item * p)) / (p + 1)
+            elif bin_capacity < item * 2.5:
+                score *= 1.4
+                for q in range(1, 4):
+                    score += (bin_capacity / (item * q)) ** 0.6 / (q + 2)
+            else:
+                for k in range(1, 5):
+                    score += (bin_capacity / (item * k)) ** 0.4 / (k + 1)
+                if bin_capacity > item * 5:
+                    score -= np.sqrt(bin_capacity - item * 5) / 10
+            priorities[i] = max(score, 0)
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size > 0:
+        max_priority = np.max(finite_priorities)
+        min_priority = np.min(finite_priorities)
+    else:
+        max_priority = 1
+        min_priority = 0
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 4
+        elif priorities[i] < 0:
+            priorities[i] = min_priority
+        elif priorities[i] > max_priority:
+            priorities[i] = max_priority
+    return priorities
+------------------------------------------------------
+Score        : -213.57142857142858
+Sample time  : 12.680962443351746
+Evaluate time: 8.988388061523438
+Sample orders: 56
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, fill_value=np.nan, dtype=float)
+    for i in range(len(bins)):
+        bin_capacity = bins[i]
+        if bin_capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bin_capacity
+        if ratio > 2:
+            priorities[i] = ratio ** 5 - np.sqrt(ratio) + np.log1p(ratio) * 2
+        elif 1 < ratio <= 2:
+            base_score = 0
+            for j in range(1, 8):
+                factor = (-1) ** j * (ratio ** j) / (j + 1)
+                if j % 3 == 0:
+                    factor *= 1.5
+                base_score += factor
+            priorities[i] = abs(base_score) + np.exp(-ratio)
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            score = 0
+            for j in range(1, 10):
+                weight = (j % 4 + 1) * 0.3
+                term = (ratio ** j) * weight / (j ** 1.5)
+                if j % 2 == 0:
+                    term *= 1.1
+                else:
+                    term *= 0.9
+                score += term
+            if bin_capacity < item * 1.2:
+                score *= 2.5
+                for k in range(1, 5):
+                    score += (bin_capacity / (item * k)) ** 0.7 / (k + 2)
+            elif bin_capacity < item * 2.5:
+                score *= 1.7
+                for k in range(1, 3):
+                    score += np.log1p(bin_capacity / (item * k)) / (k + 1)
+            else:
+                for k in range(1, 6):
+                    score += (bin_capacity / (item * k)) ** 0.4 / (k + 3)
+            if score < 0:
+                score = abs(score) * 0.5
+            priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size > 0:
+        max_priority = np.max(finite_priorities)
+        min_priority = np.min(finite_priorities)
+    else:
+        max_priority = 1
+        min_priority = 0
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 4
+        elif priorities[i] < 0:
+            priorities[i] = min_priority
+        elif priorities[i] > max_priority:
+            priorities[i] = max_priority
+    return priorities
+------------------------------------------------------
+Score        : -214.0
+Sample time  : 12.680962443351746
+Evaluate time: 10.481391906738281
+Sample orders: 57
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            continue
+        score = 0
+        for j in range(1, 21):
+            threshold = j * 0.05
+            if ratio <= threshold:
+                factor = (21 - j) * np.log(j + 2) * np.cos(ratio * np.pi * j * 0.5)
+                if j % 4 == 0:
+                    factor *= 1.1
+                elif j % 5 == 0:
+                    factor *= 0.9
+                score += factor
+            else:
+                penalty = j * np.sqrt(ratio) * (1 + (j % 4) * 0.15)
+                if j % 3 == 0:
+                    penalty *= 1.07
+                else:
+                    penalty *= 0.93
+                score -= penalty
+        if capacity % 5 == 0:
+            score *= 1.25
+            for k in range(1, 6):
+                if (capacity // k) % 3 == 0:
+                    score += np.log(k + 2) * ratio * 0.6
+                else:
+                    score -= np.sqrt(k + 2) * (1 - ratio) * 0.4
+            if ratio > 0.7:
+                for x in range(3):
+                    if x % 2 == 0:
+                        score += np.sin(ratio * np.pi * (x + 2)) * 0.3
+                    else:
+                        score -= np.cos(ratio * np.pi * (x + 2)) * 0.25
+        else:
+            score *= 0.75
+            for m in range(7):
+                if m == 0 or m == 6:
+                    score += np.sin(ratio * np.pi * (m + 1)) * 0.25
+                elif m % 2 == 0:
+                    score -= np.cos(ratio * np.pi * (m + 1)) * 0.15
+                else:
+                    score += np.sin(ratio * np.pi * (m + 1)) * 0.1
+            if capacity % 2 == 0:
+                for n in range(1, 4):
+                    if (capacity // n) % 2 == 1:
+                        score += np.log(n + 3) * ratio * 0.4
+                    else:
+                        score -= np.sqrt(n + 3) * (1 - ratio) * 0.35
+        if score < 0:
+            score = 0
+        if ratio > 0.9:
+            score *= 1.1
+            for p in range(5):
+                if p % 2 == 0:
+                    score += np.tan(ratio * np.pi * (p + 1)) * 0.05
+                else:
+                    score -= np.tanh(ratio * np.pi * (p + 1)) * 0.07
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 13.24793255329132
+Evaluate time: 30.01027512550354
+Sample orders: 58
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            continue
+        score = 0
+        for j in range(1, 21):
+            threshold = j * 0.05
+            if ratio <= threshold:
+                val = (21 - j) * np.log(j + 1) * np.cos(ratio * np.pi * j) * np.exp(-ratio * j * 0.1)
+                score += val
+                if j % 4 == 0:
+                    score += np.sin(ratio * np.pi * j) * 0.3
+                else:
+                    score -= np.tan(ratio * np.pi * j / 2) * 0.05
+            else:
+                penalty = j * np.sqrt(ratio) * (1 + (j % 5) * 0.15)
+                if j % 2 == 0:
+                    penalty *= 1.1
+                else:
+                    penalty *= 0.9
+                score -= penalty
+            if score < 0:
+                score = 0
+        if capacity % 5 == 0:
+            score *= 1.25
+            for k in range(1, 6):
+                div = capacity // k
+                if div % 2 == 0:
+                    score += np.log(k + 2) * ratio * 0.6
+                    if k % 3 == 0:
+                        score += np.sqrt(k + 2) * ratio * 0.4
+                else:
+                    score -= np.sqrt(k + 2) * (1 - ratio) * 0.35
+                    if k % 4 == 1:
+                        score -= np.log(k + 3) * (1 - ratio) * 0.25
+        else:
+            score *= 0.75
+            for m in range(7):
+                angle = ratio * np.pi * (m + 1)
+                if m % 2 == 0:
+                    score += np.sin(angle) * 0.25
+                    if m == 6:
+                        score += np.cos(angle / 2) * 0.15
+                else:
+                    score -= np.cos(angle) * 0.15
+                    if m == 3:
+                        score -= np.sin(angle / 3) * 0.1
+        if score < 0:
+            score = 0
+        if ratio > 0.8:
+            score *= (1 + (1 - ratio) * 0.5)
+        if capacity > 50:
+            for n in range(1, 4):
+                if (capacity // n) % 3 == 0:
+                    score += np.log(n + 2) * 0.2
+                else:
+                    score -= np.sqrt(n + 2) * 0.1
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 13.24793255329132
+Evaluate time: 30.00885510444641
+Sample orders: 59
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            continue
+        score = 0
+        for j in range(1, 21):
+            threshold = j * 0.05
+            if ratio <= threshold:
+                weight = (21 - j) ** 1.5
+                log_term = np.log(j + 2)
+                trig_term = np.cos(ratio * np.pi * j) + np.sin(ratio * np.pi * (j / 2))
+                score += weight * log_term * trig_term
+            else:
+                penalty = j * (ratio ** 1.2) * (1 + (j % 4) * 0.15)
+                if j % 2 == 0:
+                    penalty *= 1.1
+                else:
+                    penalty *= 0.9
+                score -= penalty
+            if j % 5 == 0:
+                if ratio < 0.5:
+                    score += np.exp(-ratio * j) * 0.3
+                else:
+                    score -= np.sqrt(j) * (ratio - 0.5) * 0.4
+        if capacity % 4 == 0:
+            score *= 1.25
+            for k in range(1, 6):
+                div = capacity // k
+                if div % 2 == 0:
+                    score += np.log(k + 2) * (ratio ** 2) * 0.6
+                else:
+                    score -= np.sqrt(k + 2) * (1 - ratio) ** 1.5 * 0.5
+                if div % 3 == 0:
+                    score += np.sin(div * ratio * np.pi / 3) * 0.4
+                else:
+                    score -= np.cos(div * ratio * np.pi / 4) * 0.3
+        else:
+            score *= 0.75
+            for m in range(7):
+                angle = ratio * np.pi * (m + 1)
+                if m % 2 == 0:
+                    score += np.sin(angle) * 0.25
+                else:
+                    score -= np.cos(angle) * 0.15
+                if m == 3 or m == 5:
+                    score += np.tan(angle / 4) * 0.1 if abs(np.tan(angle / 4)) < 10 else 0
+        if score < 0:
+            score = 0
+        if capacity > 50:
+            score *= 1.1
+            for n in range(3):
+                score += np.log1p(capacity) * (0.05 * (n + 1)) * np.sin(ratio * np.pi * (n + 2))
+        else:
+            score *= 0.9
+            for p in range(2):
+                score -= np.sqrt(capacity) * 0.02 * (p + 1) * np.cos(ratio * np.pi * (p + 3))
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 13.24793255329132
+Evaluate time: 30.007616758346558
+Sample orders: 60
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            continue
+        score = 0
+        for j in range(1, 21):
+            threshold = j * 0.05
+            if ratio <= threshold:
+                val = (21 - j) * np.log(j + 2) * np.cos(ratio * np.pi * j * 0.5)
+                if j % 4 == 0:
+                    val *= 1.1
+                elif j % 5 == 0:
+                    val *= 0.9
+                score += val
+            else:
+                penalty = j**1.5 * np.sqrt(ratio) * (1 + (j % 4) * 0.15)
+                if j % 3 == 0:
+                    penalty *= 1.07
+                else:
+                    penalty *= 0.93
+                score -= penalty
+        if capacity % 5 == 0:
+            score *= 1.25
+            for k in range(1, 6):
+                if (capacity // k) % 3 == 0:
+                    score += np.log(k + 2) * ratio * 0.6
+                else:
+                    score -= np.sqrt(k + 2) * (1 - ratio) * 0.4
+            if score < 10:
+                score += np.exp(-ratio * 5) * 3
+            else:
+                score -= np.log1p(score) * 0.5
+        elif capacity % 4 == 0:
+            score *= 0.9
+            for m in range(7):
+                if m in [0, 3, 6]:
+                    score += np.sin(ratio * np.pi * (m + 2)) * 0.25
+                else:
+                    score -= np.cos(ratio * np.pi * (m + 2)) * 0.15
+            if score > 15:
+                score *= 0.85
+            else:
+                score += 2 * np.tanh(ratio * 3)
+        else:
+            score *= 0.8
+            for n in range(10):
+                if n % 2 == 0:
+                    score += np.sin(ratio * np.pi * (n + 1)) * 0.1 * (n + 1)
+                else:
+                    score -= np.cos(ratio * np.pi * (n + 1)) * 0.12 * (n + 1)
+            if capacity > 50:
+                score += np.log(capacity) * 0.3
+            else:
+                score -= np.sqrt(capacity) * 0.2
+        if score < 0:
+            score = 0
+        if ratio > 0.8:
+            score *= 1.1
+        elif ratio < 0.2:
+            score *= 0.9
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 13.24793255329132
+Evaluate time: 30.008097887039185
+Sample orders: 61
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 15):
+            weight = 1 / (j ** 2)
+            term = (ratio ** j) * weight
+            if j % 3 == 0:
+                term *= 1.2
+            elif j % 2 == 0:
+                term *= 0.85
+            else:
+                term *= 0.95
+            if j % 5 == 0:
+                term += 0.01 * j
+            score += term
+        if capacity < item * 1.1:
+            score *= 1.5
+        elif capacity < item * 1.3:
+            score *= 1.2
+        elif capacity < item * 1.7:
+            score *= 0.9
+        else:
+            score *= 0.6
+        mod3 = capacity % 3
+        mod5 = capacity % 5
+        mod7 = capacity % 7
+        if mod3 == 0 and mod5 == 0:
+            score -= 0.25
+        elif mod7 == 0:
+            score += 0.3
+        elif mod3 == 0:
+            score -= 0.1
+        elif mod5 == 0:
+            score += 0.2
+        else:
+            score += 0.1
+        penalty = 0
+        for k in range(1, 6):
+            diff = capacity - item * k
+            if diff < 0:
+                penalty += 0.07 * k
+            elif diff < item * 0.1:
+                penalty += 0.03 * k
+            else:
+                penalty -= 0.015 * k
+        score += penalty
+        if score < 0:
+            score = 0
+        if capacity % 2 == 0:
+            for m in range(1, 4):
+                if (capacity / m) > item:
+                    score *= 0.95
+                else:
+                    score *= 1.05
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 10.744641184806824
+Evaluate time: 0.0
+Sample orders: 62
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 15):
+            weight = 1 / (j ** 1.7)
+            term = (ratio ** j) * weight
+            if j % 3 == 0:
+                term *= 1.2
+            elif j % 2 == 0:
+                term *= 0.85
+            else:
+                term *= 0.95
+            score += term
+        if capacity < item * 1.1:
+            score *= 1.5
+        elif capacity < item * 1.3:
+            score *= 1.2
+        elif capacity < item * 1.6:
+            score *= 1.05
+        else:
+            score *= 0.65
+        mod3 = capacity % 3
+        mod5 = capacity % 5
+        mod7 = capacity % 7
+        if mod3 == 0 and mod5 == 0:
+            score -= 0.25
+        elif mod3 == 0:
+            score -= 0.1
+        elif mod5 == 0:
+            score += 0.25
+        else:
+            score += 0.1
+        if mod7 == 0:
+            score *= 0.9
+        penalty = 0
+        for k in range(1, 6):
+            diff = capacity - item * k
+            if diff < 0:
+                penalty += 0.04 * k * abs(diff)
+            else:
+                penalty -= 0.015 * k * diff
+            if k % 2 == 0 and diff < 0:
+                penalty += 0.02 * k
+        score += penalty
+        if score < 0:
+            score = 0
+        if capacity > item * 2:
+            for m in range(1, 4):
+                if (capacity - item * m) % 4 == 0:
+                    score *= 0.95
+                else:
+                    score *= 1.02
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 10.744641184806824
+Evaluate time: 0.0
+Sample orders: 63
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 15):
+            weight = 1 / (j ** 2)
+            term = (ratio ** j) * weight
+            if j % 3 == 0:
+                term *= 1.2
+            elif j % 2 == 0:
+                term *= 0.85
+            else:
+                term *= 0.95
+            score += term
+        if capacity < item * 1.1:
+            score *= 1.5
+        elif capacity < item * 1.3:
+            score *= 1.2
+        elif capacity < item * 1.7:
+            score *= 0.9
+        else:
+            score *= 0.6
+        if capacity % 7 == 0:
+            score -= 0.25
+        elif capacity % 4 == 0:
+            score += 0.18
+        elif capacity % 6 == 0:
+            score += 0.1
+        else:
+            score += 0.07
+        penalty = 0
+        for k in range(1, 6):
+            diff = capacity - item * k
+            if diff < 0:
+                penalty += 0.06 * k
+            elif diff < item * 0.2:
+                penalty += 0.02 * k
+            else:
+                penalty -= 0.015 * k
+        score += penalty
+        if score < 0:
+            score = 0
+        adjustment = 0
+        for m in range(1, 5):
+            if (capacity % m) == 0:
+                adjustment += 0.03 * m
+            else:
+                adjustment -= 0.01 * m
+        score += adjustment
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -212.57142857142858
+Sample time  : 10.744641184806824
+Evaluate time: 15.575498819351196
+Sample orders: 64
+======================================================
+
+
+INFO:absl:Best score of island 6 increased to -212.35714285714286
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 15):
+            weight = 1 / (j ** 1.7)
+            term = (ratio ** j)
+            if j % 3 == 0:
+                term *= 1.2
+            elif j % 2 == 0:
+                term *= 0.85
+            else:
+                term *= 0.95
+            if j % 5 == 0:
+                term += 0.01 * j
+            score += weight * term
+        if capacity < item * 1.1:
+            score *= 1.5
+        elif capacity < item * 1.3:
+            score *= 1.2
+        elif capacity < item * 1.7:
+            score *= 0.9
+        else:
+            score *= 0.6
+        mod3 = capacity % 3
+        mod5 = capacity % 5
+        mod7 = capacity % 7
+        if mod3 == 0 and mod5 == 0:
+            score -= 0.25
+        elif mod5 == 0 and mod7 == 0:
+            score += 0.3
+        elif mod3 == 0 and mod7 == 0:
+            score -= 0.1
+        else:
+            score += 0.07
+        penalty = 0
+        for k in range(1, 6):
+            diff = capacity - item * k
+            if diff < 0:
+                penalty += 0.04 * (k ** 1.1)
+            elif diff < item * 0.5:
+                penalty -= 0.03 * k
+            else:
+                penalty -= 0.01 * k
+        score += penalty
+        if score < 0:
+            score = 0
+        if capacity > item * 2:
+            for m in range(1, 4):
+                if (capacity - item * m) % 2 == 0:
+                    score *= 0.95
+                else:
+                    score *= 1.05
+        priorities[i] = score
+    return priorities
+------------------------------------------------------
+Score        : -212.35714285714286
+Sample time  : 10.744641184806824
+Evaluate time: 17.49312114715576
+Sample orders: 65
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 6):
+            term = (ratio ** j) / j
+            if j % 2 == 0:
+                term *= 1.5
+            else:
+                term *= 0.75
+            score += term
+        if capacity > 10 * item:
+            score *= 0.4
+            for k in range(3):
+                score += (0.1 / (k + 1)) * np.sin(ratio * (k + 1) * np.pi)
+        elif capacity > 5 * item:
+            score *= 0.7
+            for k in range(2, 5):
+                score -= (0.05 * k) * np.cos(ratio * k * np.pi / 2)
+        else:
+            if capacity < item * 0.8:
+                score *= 2.5
+            elif capacity < item:
+                score *= 1.8
+            else:
+                for m in range(1, 4):
+                    score += (ratio ** m) * np.log1p(m)
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size > 0:
+        max_priority = np.max(finite_priorities)
+    else:
+        max_priority = 1
+    for i in range(len(priorities)):
+        if np.isinf(priorities[i]):
+            priorities[i] = max_priority * 15
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 7.0782148241996765
+Evaluate time: 0.0
+Sample orders: 66
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 6):
+            term = (ratio ** j) / j
+            if j % 2 == 0:
+                term *= 1.1
+            else:
+                term *= 0.9
+            score += term
+        if capacity > 10 * item:
+            score *= 0.4
+        elif capacity > 5 * item:
+            score *= 0.7
+        elif capacity < item:
+            score *= 2.5
+        else:
+            for k in range(1, 4):
+                score += (k * ratio) / (k + 1)
+        if score < 0.1:
+            score = 0.1
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        max_priority = 1.0
+    else:
+        max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if np.isinf(priorities[i]):
+            priorities[i] = max_priority * 15
+        elif priorities[i] > max_priority:
+            priorities[i] = max_priority
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 7.0782148241996765
+Evaluate time: 0.0
+Sample orders: 67
+======================================================
+
+
+INFO:absl:Best score of island 4 increased to -212.42857142857142
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            term = (ratio ** j) / j
+            if j % 2 == 0:
+                term *= 1.5
+            else:
+                term *= 0.75
+            score += term
+        if capacity > 20 * item:
+            score *= 0.3
+        elif capacity > 10 * item:
+            score *= 0.6
+        elif capacity > 5 * item:
+            score *= 0.8
+        else:
+            score *= 1.2
+        if score < 0.1:
+            score += 0.05
+        if i % 3 == 0:
+            score *= 1.1
+        elif i % 5 == 0:
+            score *= 0.9
+        if capacity < item * 0.5:
+            score *= 2
+        elif capacity < item * 0.75:
+            score *= 1.5
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if np.isinf(priorities[i]):
+            priorities[i] = max_priority * 15
+    for i in range(len(priorities)):
+        if priorities[i] < 0.05:
+            priorities[i] = 0.05
+    return priorities
+------------------------------------------------------
+Score        : -212.42857142857142
+Sample time  : 7.0782148241996765
+Evaluate time: 8.520056962966919
+Sample orders: 68
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 6):
+            term = (ratio ** j) / j
+            if j % 2 == 0:
+                term *= 1.1
+            else:
+                term *= 0.9
+            score += term
+        if capacity > 10 * item:
+            score *= 0.5
+        elif capacity < item:
+            score *= 2
+        elif capacity > 5 * item:
+            score *= 0.75
+        else:
+            for k in range(1, 4):
+                score += (k * ratio) / (k + i + 1)
+        if score < 0.1:
+            score += 0.1
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        max_priority = 1.0
+    else:
+        max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if np.isinf(priorities[i]):
+            priorities[i] = max_priority * 10 + i
+    return priorities
+------------------------------------------------------
+Score        : -213.14285714285714
+Sample time  : 7.0782148241996765
+Evaluate time: 4.544088840484619
+Sample orders: 69
+======================================================
+
+
+INFO:absl:Best score of island 0 increased to -329.42857142857144
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        if bins[i] == 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bins[i]
+        if ratio > 1:
+            priorities[i] = ratio ** 2 + np.log1p(ratio)
+        elif 0.5 <= ratio <= 1:
+            priorities[i] = -np.log(bins[i]) + ratio
+        else:
+            penalty = 0
+            for j in range(1, 4):
+                penalty += (ratio ** j) / j
+            priorities[i] = penalty + np.sqrt(bins[i])
+        if bins[i] < item:
+            priorities[i] += 10
+    return priorities
+------------------------------------------------------
+Score        : -329.42857142857144
+Sample time  : 4.855549931526184
+Evaluate time: 3.239638090133667
+Sample orders: 70
+======================================================
+
+
+INFO:absl:Best score of island 0 increased to -233.92857142857142
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        if bins[i] <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bins[i]
+        if ratio > 1:
+            priorities[i] = ratio ** 3
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            log_ratio = np.log(ratio)
+            if log_ratio < -1:
+                priorities[i] = -log_ratio * 2
+            else:
+                priorities[i] = -log_ratio
+        if bins[i] < item * 1.5:
+            priorities[i] += 0.5
+        if i % 2 == 0:
+            priorities[i] *= 1.1
+        else:
+            priorities[i] *= 0.9
+    min_priority = np.min(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if np.isinf(priorities[i]):
+            priorities[i] = min_priority + 10
+    return priorities
+------------------------------------------------------
+Score        : -233.92857142857142
+Sample time  : 4.855549931526184
+Evaluate time: 5.241818189620972
+Sample orders: 71
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+        else:
+            score = 0
+            for j in range(1, 6):
+                weight = j * 0.2
+                score += weight * (ratio ** j)
+            if capacity > 10 * item:
+                score *= 0.5
+            elif capacity < 2 * item:
+                score *= 1.5
+            priorities[i] = score
+    max_priority = np.max(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 10
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 4.855549931526184
+Evaluate time: 0.0
+Sample orders: 72
+======================================================
+
+
+INFO:absl:Best score of island 0 increased to -231.42857142857142
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins)
+    for i in range(len(bins)):
+        if bins[i] == 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / bins[i]
+        if ratio > 1:
+            priorities[i] = ratio ** 3
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            log_ratio = np.log(ratio)
+            if log_ratio < -1:
+                priorities[i] = -log_ratio * 2
+            else:
+                priorities[i] = -log_ratio
+        if bins[i] < item * 1.5:
+            priorities[i] *= 1.5
+        else:
+            priorities[i] *= 0.75
+    min_priority = np.min(priorities[np.isfinite(priorities)])
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = min_priority * 10
+    return priorities
+------------------------------------------------------
+Score        : -231.42857142857142
+Sample time  : 4.855549931526184
+Evaluate time: 5.238046884536743
+Sample orders: 73
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.empty_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity == 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 2:
+            priorities[i] = ratio ** 4 + np.sqrt(ratio)
+        elif 1 < ratio <= 2:
+            priorities[i] = ratio ** 3 - np.log(ratio)
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            log_ratio = np.log(ratio)
+            if log_ratio < -2:
+                priorities[i] = -log_ratio * 3 + ratio * 2
+            elif -2 <= log_ratio < -1:
+                priorities[i] = -log_ratio * 2 + ratio
+            else:
+                priorities[i] = -log_ratio
+        if capacity < item * 1.2:
+            priorities[i] *= 2
+        elif capacity < item * 1.5:
+            priorities[i] *= 1.5
+        else:
+            priorities[i] *= 0.5
+        if i % 2 == 0:
+            priorities[i] += np.sin(i) * 0.1
+        else:
+            priorities[i] -= np.cos(i) * 0.1
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size > 0:
+        min_priority = np.min(finite_priorities)
+        max_priority = np.max(finite_priorities)
+    else:
+        min_priority = 0
+        max_priority = 0
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority * 10 if max_priority > 0 else 1000
+        elif priorities[i] < min_priority:
+            priorities[i] = min_priority
+        elif priorities[i] > max_priority * 5:
+            priorities[i] = max_priority * 5
+    for i in range(len(priorities)):
+        if priorities[i] < 0:
+            priorities[i] = abs(priorities[i]) * 0.8
+        if i > 0 and priorities[i] > priorities[i-1] * 2:
+            priorities[i] = priorities[i-1] * 1.5
+    return priorities
+------------------------------------------------------
+Score        : -278.2142857142857
+Sample time  : 9.549225807189941
+Evaluate time: 7.401217937469482
+Sample orders: 74
+======================================================
+
+
+INFO:absl:Best score of island 0 increased to -219.0
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, np.nan, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity == 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 2:
+            priorities[i] = ratio ** 4 + (capacity % 3) * 0.5
+        elif 1 < ratio <= 2:
+            priorities[i] = ratio ** 3 - np.sqrt(capacity)
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            log_ratio = np.log(ratio)
+            if log_ratio < -2:
+                priorities[i] = (-log_ratio) * 3 + (capacity % 5) * 0.3
+            elif -2 <= log_ratio < -1:
+                priorities[i] = (-log_ratio) * 2.5
+            else:
+                priorities[i] = -log_ratio * 1.2
+        if capacity < item * 1.2:
+            priorities[i] *= 2
+            for j in range(i):
+                if bins[j] > capacity:
+                    priorities[i] += 0.1 * (bins[j] - capacity)
+        elif capacity > item * 2:
+            priorities[i] *= 0.5
+            for k in range(i + 1, len(bins)):
+                if bins[k] < capacity:
+                    priorities[i] -= 0.05 * (capacity - bins[k])
+        else:
+            priorities[i] *= 1
+        if priorities[i] < 0:
+            priorities[i] = abs(priorities[i]) * 0.8
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size > 0:
+        min_priority = np.min(finite_priorities)
+        max_priority = np.max(finite_priorities)
+        for i in range(len(priorities)):
+            if not np.isfinite(priorities[i]):
+                priorities[i] = max_priority * 10
+            elif priorities[i] > max_priority:
+                priorities[i] = max_priority
+            elif priorities[i] < min_priority:
+                priorities[i] = min_priority
+    else:
+        priorities[:] = 1e6
+    return priorities
+------------------------------------------------------
+Score        : -219.0
+Sample time  : 9.549225807189941
+Evaluate time: 18.910013914108276
+Sample orders: 75
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.empty_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity == 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 2:
+            priorities[i] = ratio ** 4 + np.sqrt(ratio)
+        elif 1 < ratio <= 2:
+            priorities[i] = (ratio ** 3) * 1.2
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            log_ratio = np.log(ratio)
+            if log_ratio < -2:
+                priorities[i] = (-log_ratio) ** 2 * 2
+            elif -2 <= log_ratio < -0.5:
+                priorities[i] = (-log_ratio) * 1.8
+            else:
+                priorities[i] = (-log_ratio) * 1.2
+        if capacity < item * 1.2:
+            priorities[i] *= 2
+        elif capacity < item * 1.5:
+            priorities[i] *= 1.5
+        else:
+            priorities[i] *= 0.5
+        if priorities[i] > 10:
+            priorities[i] = np.log(priorities[i]) * 5
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size > 0:
+        min_priority = np.min(finite_priorities)
+        max_priority = np.max(finite_priorities)
+        for i in range(len(priorities)):
+            if not np.isfinite(priorities[i]):
+                priorities[i] = max_priority * 10
+            elif priorities[i] < min_priority * 0.1:
+                priorities[i] = min_priority * 0.1
+            elif priorities[i] > max_priority * 0.9:
+                priorities[i] = max_priority * 0.9
+    else:
+        priorities.fill(np.inf)
+    for i in range(len(priorities)):
+        if priorities[i] < 0:
+            priorities[i] = 0
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 9.549225807189941
+Evaluate time: 0.0
+Sample orders: 76
+======================================================
+
+
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+INFO:httpx:HTTP Request: POST https://api.bltcy.ai/v1/chat/completions "HTTP/1.1 200 OK"
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.empty_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity == 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 2:
+            priorities[i] = ratio ** 4 + np.sqrt(ratio)
+        elif 1 < ratio <= 2:
+            priorities[i] = ratio ** 3 - np.log(ratio)
+        elif ratio == 1:
+            priorities[i] = 0
+        else:
+            log_ratio = np.log(ratio)
+            if log_ratio < -2:
+                priorities[i] = (-log_ratio) * 3 + ratio * 2
+            elif log_ratio < -1:
+                priorities[i] = (-log_ratio) * 2 + ratio
+            else:
+                priorities[i] = -log_ratio
+        if capacity < item:
+            priorities[i] *= 2
+        elif capacity < item * 1.2:
+            priorities[i] *= 1.7
+        elif capacity < item * 1.5:
+            priorities[i] *= 1.3
+        else:
+            priorities[i] *= 0.5
+        if i % 2 == 0:
+            priorities[i] += np.sin(capacity) * 0.1
+        else:
+            priorities[i] -= np.cos(capacity) * 0.1
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size > 0:
+        min_priority = np.min(finite_priorities)
+        max_priority = np.max(finite_priorities)
+        for i in range(len(priorities)):
+            if not np.isfinite(priorities[i]):
+                priorities[i] = max_priority * 10
+            elif priorities[i] < min_priority:
+                priorities[i] = min_priority
+            elif priorities[i] > max_priority:
+                priorities[i] = max_priority
+    else:
+        priorities.fill(np.inf)
+    for i in range(len(priorities)):
+        if priorities[i] < 0:
+            priorities[i] = 0
+    return priorities
+------------------------------------------------------
+Score        : -260.92857142857144
+Sample time  : 9.549225807189941
+Evaluate time: 6.978900909423828
+Sample orders: 77
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.full_like(bins, -np.inf, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            if ratio < j * 0.1:
+                score += (11 - j) * 0.4
+            else:
+                score -= j * 0.15
+        if capacity % 3 == 0:
+            score *= 1.2
+            if item % 2 == 0:
+                score += 2
+            else:
+                score -= 1
+        elif capacity % 5 == 0:
+            score *= 0.85
+            for k in range(1, 4):
+                if (item + k) % 2 == 0:
+                    score += 0.5 * k
+                else:
+                    score -= 0.3 * k
+        else:
+            if ratio < 0.25:
+                score += 1.5
+            else:
+                score -= 0.5
+        if score < 0:
+            for m in range(3):
+                score += (m + 1) * 0.2
+                if score > 0:
+                    break
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 15
+    return priorities
+------------------------------------------------------
+Score        : None
+Sample time  : 7.774237751960754
+Evaluate time: 0.0
+Sample orders: 78
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio < threshold:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+        if capacity % 3 == 0:
+            score *= 1.2
+        elif capacity % 5 == 0:
+            score *= 1.15
+        else:
+            score *= 0.85
+        if item > capacity * 0.75:
+            score -= 2
+        elif item < capacity * 0.25:
+            score += 1.5
+        for k in range(1, 4):
+            if (capacity - item) % k == 0:
+                score += k * 0.4
+            else:
+                score -= k * 0.2
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        return priorities
+    max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 15
+    return priorities
+------------------------------------------------------
+Score        : -444.5
+Sample time  : 7.774237751960754
+Evaluate time: 7.54278302192688
+Sample orders: 79
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.zeros_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio < threshold:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+            if j % 2 == 0 and ratio < threshold / 2:
+                score += 0.2 * j
+            elif j % 3 == 0 and ratio > threshold:
+                score -= 0.15 * j
+        if capacity % 3 == 0:
+            score *= 1.15
+        elif capacity % 5 == 0:
+            score *= 0.85
+        else:
+            score *= 1.0
+        if item > capacity / 2:
+            score -= 0.5
+        elif item < capacity / 4:
+            score += 0.4
+        for k in range(3):
+            if k == 0 and ratio < 0.3:
+                score += 0.1
+            elif k == 1 and capacity > 50:
+                score += 0.2
+            elif k == 2 and capacity < 20:
+                score -= 0.3
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        max_priority = 0
+    else:
+        max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 15
+    return priorities
+------------------------------------------------------
+Score        : -464.14285714285717
+Sample time  : 7.774237751960754
+Evaluate time: 5.660589218139648
+Sample orders: 80
+======================================================
+
+
+================= Evaluated Function =================
+def priority(item: float, bins: np.ndarray) -> np.ndarray:
+    """Returns priority with which we want to add item to each bin.
+
+    Args:
+        item: Size of item to be added to the bin.
+        bins: Array of capacities for each bin.
+
+    Return:
+        Array of same size as bins with priority score of each bin.
+    """
+    priorities = np.empty_like(bins, dtype=float)
+    for i in range(len(bins)):
+        capacity = bins[i]
+        if capacity <= 0:
+            priorities[i] = np.inf
+            continue
+        ratio = item / capacity
+        if ratio > 1:
+            priorities[i] = np.inf
+            continue
+        score = 0
+        for j in range(1, 11):
+            threshold = j * 0.1
+            if ratio < threshold:
+                score += (11 - j) * 0.3
+            else:
+                score -= j * 0.05
+            if j % 2 == 0 and ratio < threshold / 2:
+                score += 0.2 * j
+            elif j % 3 == 0 and ratio > threshold * 0.8:
+                score -= 0.15 * j
+        if capacity % 3 == 0:
+            score *= 1.2
+            if item % 2 == 0:
+                score += 0.5
+            else:
+                score -= 0.3
+        elif capacity % 5 == 0:
+            score *= 0.85
+            if item > capacity / 2:
+                score -= 0.7
+            else:
+                score += 0.4
+        else:
+            if item < capacity * 0.3:
+                score *= 1.05
+            else:
+                score *= 0.95
+        if score < 0:
+            score = 0
+        priorities[i] = score
+    finite_priorities = priorities[np.isfinite(priorities)]
+    if finite_priorities.size == 0:
+        max_priority = 0
+    else:
+        max_priority = np.max(finite_priorities)
+    for i in range(len(priorities)):
+        if not np.isfinite(priorities[i]):
+            priorities[i] = max_priority + 15
+    return priorities
+------------------------------------------------------
+Score        : -464.35714285714283
+Sample time  : 7.774237751960754
+Evaluate time: 5.6553051471710205
+Sample orders: 81
+======================================================
+
+
+[DEDUP] 统计:
+  LLM 生成总数: 81
+  空函数(已放行): 0 (0.0%)
+  AST 去重拦截: 0 (0.0%)
+  行为指纹拦截: 20 (24.7%)
+  进入评估: 61 (75.3%)
+  去重节省率: 24.7%
+去重统计已保存: /Users/zs/A/Coding/cityu_homework/cs5491/project_test/funsearch-main/logs/2026-03-31-2-funsearch_exp_behavior_only/dedup_stats.json
+
+[TOKEN] API 调用次数: 80
+[TOKEN] Prompt tokens: 37372
+[TOKEN] Completion tokens: 27438
+[TOKEN] Total tokens: 64810
+Token 统计已保存: /Users/zs/A/Coding/cityu_homework/cs5491/project_test/funsearch-main/logs/2026-03-31-2-funsearch_exp_behavior_only/token_usage.json
+
+FunSearch completed!

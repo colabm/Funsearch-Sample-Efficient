@@ -1,0 +1,33 @@
+{
+  "_comment": "Baseline scores transcribed from FORMAL_CODE_1/local/report.md §4.5. Higher (less negative) is better; values are -mean(num_bins). 'or_search' = OR3 training/search set used during evolution; 'or_test' = OR3 held-out test set; 'weibull_5k' = Weibull 5k generalization set.",
+  "baselines": {
+    "online_first_fit": {
+      "name": "Online First Fit",
+      "type": "online",
+      "or_search": -213.50,
+      "or_test": -211.00,
+      "weibull_5k": -2071.80
+    },
+    "online_best_fit": {
+      "name": "Online Best Fit",
+      "type": "online",
+      "or_search": -212.64,
+      "or_test": -210.50,
+      "weibull_5k": -2067.00
+    },
+    "offline_ffd_bfd": {
+      "name": "Offline FFD / BFD",
+      "type": "offline",
+      "or_search": -204.14,
+      "or_test": -203.33,
+      "weibull_5k": -1994.40
+    }
+  },
+  "funsearch_reference": {
+    "_comment": "Final-iteration FunSearch scores reproduced from report §4.5 for cross-checking against per-experiment evaluation JSONs.",
+    "no_dedup": {"or_search": -211.50, "or_test": -209.67, "weibull_5k": -2062.40},
+    "behavior_only": {"or_search": -212.36, "or_test": -210.50, "weibull_5k": -2065.40},
+    "full_dedup": {"or_search": -210.14, "or_test": -208.67, "weibull_5k": -2052.40},
+    "ast_only": {"or_search": -210.64, "or_test": -208.50, "weibull_5k": -2034.20}
+  }
+}

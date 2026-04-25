@@ -1,0 +1,17 @@
+{
+  "name": "full_dedup-no_temp-1000samples",
+  "config": {
+    "dedup_ast": true,
+    "dedup_behavior": true,
+    "description": "实验组: AST + 决策序列行为指纹 (v2) 双层去重"
+  },
+  "model": "gpt-3.5-turbo",
+  "max_samples": 1000,
+  "temperature": "API default",
+  "seed": 42,
+  "start_time": "2026-04-04 12:15:17",
+  "end_time": "2026-04-04 21:40:27",
+  "elapsed_seconds": 33909.7,
+  "return_code": 0,
+  "algorithm_version": "decision-sequence-v2 (375-dim, 10 probes, SHA256)"
+}
